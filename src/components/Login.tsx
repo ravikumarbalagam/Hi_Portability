@@ -34,203 +34,195 @@ export function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#E3EDFF] via-white to-[#F0F7FF] flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Thematic Background Graphics */}
+    <div className="min-h-screen bg-gradient-to-br from-[#04274F] via-[#1F6098] to-[#2877BB] flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Decorative Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Large Circle - Top Right */}
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-[#2877BB]/10 to-[#1F6098]/5 rounded-full blur-3xl"></div>
+        {/* Gradient Orbs */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#2877BB]/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#04274F]/30 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#1F6098]/10 rounded-full blur-3xl"></div>
         
-        {/* Medium Circle - Bottom Left */}
-        <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-gradient-to-tr from-[#04274F]/10 to-[#2877BB]/5 rounded-full blur-3xl"></div>
+        {/* Geometric Patterns */}
+        <div className="absolute top-20 left-20 w-32 h-32 border border-white/5 rounded-lg rotate-45"></div>
+        <div className="absolute bottom-32 right-32 w-24 h-24 border border-white/5 rounded-full"></div>
+        <div className="absolute top-1/3 right-20 w-16 h-16 border-2 border-white/5 rounded-lg -rotate-12"></div>
         
-        {/* Small Circle - Middle */}
-        <div className="absolute top-1/3 left-1/4 w-64 h-64 bg-gradient-to-br from-[#E3EDFF]/30 to-transparent rounded-full blur-2xl"></div>
-        
-        {/* Geometric Shapes */}
-        <div className="absolute top-20 right-1/4 w-32 h-32 border-4 border-[#2877BB]/10 rounded-lg rotate-45"></div>
-        <div className="absolute bottom-40 right-20 w-24 h-24 border-4 border-[#1F6098]/10 rounded-full"></div>
-        
-        {/* Floating Elements */}
-        <div className="absolute top-1/2 right-10 w-16 h-16 bg-gradient-to-br from-[#2877BB]/5 to-transparent rounded-lg rotate-12 animate-pulse"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-20 h-20 bg-gradient-to-tl from-[#1F6098]/5 to-transparent rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-      </div>
-
-      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center relative z-10">
-        {/* Left Side - Branding */}
-        <div className="hidden lg:flex flex-col justify-center space-y-6 p-12">
-          <div className="flex items-center gap-3">
-            <div className="p-3 bg-gradient-to-br from-[#2877BB] to-[#1F6098] rounded-xl shadow-lg">
-              <Shield className="size-10 text-white" />
-            </div>
-            <div>
-              <h1 className="text-[#04274F]">IIB Portal</h1>
-              <p className="text-[#6E6E6E]">Insurance Information Bureau</p>
-            </div>
-          </div>
-          
-          <div className="space-y-4">
-            <h2 className="text-[#04274F]">Health Insurance Portability Platform</h2>
-            <p className="text-[#6E6E6E] leading-relaxed">
-              Secure access to the Insurance Information Bureau's portability management system. 
-              Request and manage policy data transfers seamlessly between insurers.
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex items-start gap-3 p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-[#E3EDFF] shadow-sm hover:shadow-md transition-shadow">
-              <div className="p-2 bg-gradient-to-br from-[#2877BB]/10 to-[#E3EDFF] rounded-lg">
-                <Shield className="size-5 text-[#2877BB]" />
-              </div>
-              <div>
-                <div className="text-sm text-[#04274F]">Secure & Compliant</div>
-                <div className="text-xs text-[#6E6E6E] mt-1">
-                  IRDAI regulated platform with end-to-end encryption
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex items-start gap-3 p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-[#E3EDFF] shadow-sm hover:shadow-md transition-shadow">
-              <div className="p-2 bg-gradient-to-br from-emerald-500/10 to-emerald-50 rounded-lg">
-                <Lock className="size-5 text-emerald-600" />
-              </div>
-              <div>
-                <div className="text-sm text-[#04274F]">Data Protection</div>
-                <div className="text-xs text-[#6E6E6E] mt-1">
-                  Your data is protected with industry-standard security
-                </div>
-              </div>
-            </div>
+        {/* Floating dots */}
+        <div className="absolute top-40 right-1/4">
+          <div className="grid grid-cols-4 gap-3">
+            {[...Array(12)].map((_, i) => (
+              <div key={i} className="w-1 h-1 bg-white/10 rounded-full"></div>
+            ))}
           </div>
         </div>
+      </div>
 
-        {/* Right Side - Login Form */}
-        <div className="flex items-center justify-center">
-          <Card className="w-full max-w-md shadow-2xl border-[#E3EDFF] bg-white/95 backdrop-blur-sm">
-            <CardHeader className="space-y-1 text-center">
-              <div className="flex justify-center mb-4 lg:hidden">
-                <div className="p-3 bg-gradient-to-br from-[#2877BB] to-[#1F6098] rounded-xl shadow-lg">
-                  <Shield className="size-8 text-white" />
+      {/* Main Container */}
+      <div className="w-full max-w-5xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+          
+          {/* Left Side - Branding (2 columns) */}
+          <div className="lg:col-span-2 text-center lg:text-left space-y-6 px-4">
+            {/* Logo and Title */}
+            <div className="flex flex-col items-center lg:items-start gap-4">
+              <div className="p-4 bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20">
+                <Shield className="size-12 text-white" />
+              </div>
+              <div>
+                <h1 className="text-white text-3xl">HiPortability</h1>
+                <p className="text-white/70 text-sm mt-1">Insurance Information Bureau</p>
+              </div>
+            </div>
+
+            {/* Feature List */}
+            <div className="hidden lg:block space-y-4 mt-8">
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-white/10 rounded-lg shrink-0 mt-1">
+                  <Shield className="size-4 text-white" />
+                </div>
+                <div>
+                  <div className="text-white text-sm">Secure Platform</div>
+                  <div className="text-white/60 text-xs mt-0.5">IRDAI regulated with end-to-end encryption</div>
                 </div>
               </div>
-              <CardTitle className="text-[#04274F]">Sign In to IIB Portal</CardTitle>
-              <CardDescription className="text-[#6E6E6E]">
-                Enter your credentials to access the portability platform
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleLogin} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email Address</Label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="admin@hdfcergo.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="pl-10"
-                      disabled={isLoading}
-                    />
+              
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-white/10 rounded-lg shrink-0 mt-1">
+                  <Lock className="size-4 text-white" />
+                </div>
+                <div>
+                  <div className="text-white text-sm">Data Protection</div>
+                  <div className="text-white/60 text-xs mt-0.5">Industry-standard security protocols</div>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-white/10 rounded-lg shrink-0 mt-1">
+                  <Mail className="size-4 text-white" />
+                </div>
+                <div>
+                  <div className="text-white text-sm">Seamless Communication</div>
+                  <div className="text-white/60 text-xs mt-0.5">Request and manage policy data efficiently</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side - Login Panel (3 columns) */}
+          <div className="lg:col-span-3">
+            <Card className="w-full max-w-md mx-auto bg-white shadow-2xl border-none">
+              <CardHeader className="space-y-1 pb-6">
+                <div className="flex justify-center mb-2 lg:hidden">
+                  <div className="p-3 bg-gradient-to-br from-[#2877BB] to-[#1F6098] rounded-xl">
+                    <Shield className="size-8 text-white" />
                   </div>
                 </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
-                    <Input
-                      id="password"
-                      type="password"
-                      placeholder="Enter your password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="pl-10"
-                      disabled={isLoading}
-                    />
+                <CardTitle className="text-2xl text-center text-[#04274F]">Welcome Back</CardTitle>
+                <CardDescription className="text-center text-[#6E6E6E]">
+                  Sign in to access the portability platform
+                </CardDescription>
+              </CardHeader>
+              
+              <CardContent className="space-y-6">
+                <form onSubmit={handleLogin} className="space-y-5">
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="text-[#04274F]">Email Address</Label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[#6E6E6E]" />
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="admin@hdfcergo.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="pl-10 h-11 border-slate-300 focus:border-[#2877BB] focus:ring-[#2877BB]"
+                        disabled={isLoading}
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="remember" 
-                      checked={rememberMe}
-                      onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                  <div className="space-y-2">
+                    <Label htmlFor="password" className="text-[#04274F]">Password</Label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[#6E6E6E]" />
+                      <Input
+                        id="password"
+                        type="password"
+                        placeholder="Enter your password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="pl-10 h-11 border-slate-300 focus:border-[#2877BB] focus:ring-[#2877BB]"
+                        disabled={isLoading}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox 
+                        id="remember" 
+                        checked={rememberMe}
+                        onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                        disabled={isLoading}
+                      />
+                      <label
+                        htmlFor="remember"
+                        className="text-sm text-[#6E6E6E] cursor-pointer select-none"
+                      >
+                        Remember me
+                      </label>
+                    </div>
+                    <Button 
+                      type="button" 
+                      variant="link" 
+                      className="text-sm text-[#2877BB] hover:text-[#1F6098] p-0 h-auto"
                       disabled={isLoading}
-                    />
-                    <label
-                      htmlFor="remember"
-                      className="text-sm text-slate-600 cursor-pointer"
                     >
-                      Remember me
-                    </label>
+                      Forgot password?
+                    </Button>
                   </div>
+
                   <Button 
-                    type="button" 
-                    variant="link" 
-                    className="text-sm p-0 h-auto"
+                    type="submit" 
+                    className="w-full h-11 bg-gradient-to-r from-[#2877BB] to-[#1F6098] hover:from-[#1F6098] hover:to-[#04274F] text-white shadow-lg" 
                     disabled={isLoading}
                   >
-                    Forgot password?
+                    {isLoading ? (
+                      <>
+                        <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                        Signing in...
+                      </>
+                    ) : (
+                      "Sign In"
+                    )}
                   </Button>
-                </div>
+                </form>
 
-                <Button 
-                  type="submit" 
-                  className="w-full" 
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                      Signing in...
-                    </>
-                  ) : (
-                    "Sign In"
-                  )}
-                </Button>
-
-                <div className="relative my-6">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-slate-200"></div>
-                  </div>
-                  <div className="relative flex justify-center text-xs">
-                    <span className="bg-white px-2 text-slate-500">or</span>
+                {/* Demo Credentials */}
+                <div className="p-4 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-xl shadow-sm">
+                  <div className="flex gap-3">
+                    <AlertCircle className="size-5 text-amber-600 shrink-0 mt-0.5" />
+                    <div className="space-y-1">
+                      <div className="text-xs text-amber-900">Demo Credentials</div>
+                      <div className="text-xs text-amber-800">
+                        <div>Email: <span className="font-mono bg-white/60 px-1.5 py-0.5 rounded">admin@hdfcergo.com</span></div>
+                        <div className="mt-1">Password: <span className="font-mono bg-white/60 px-1.5 py-0.5 rounded">demo123</span></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  className="w-full"
-                  disabled={isLoading}
-                >
-                  Sign in with SSO
-                </Button>
-              </form>
-
-              <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-                <div className="flex gap-3">
-                  <AlertCircle className="size-5 text-amber-600 shrink-0 mt-0.5" />
-                  <div className="text-xs text-amber-800">
-                    <div className="font-medium mb-1">Demo Credentials</div>
-                    <div>Email: <span className="font-mono">admin@hdfcergo.com</span></div>
-                    <div>Password: <span className="font-mono">demo123</span></div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
 
       {/* Footer */}
-      <div className="absolute bottom-4 left-0 right-0 text-center">
-        <p className="text-xs text-slate-500">
+      <div className="absolute bottom-6 left-0 right-0 text-center">
+        <p className="text-xs text-white/60">
           © 2024 Insurance Information Bureau of India. All rights reserved.
         </p>
-        <p className="text-xs text-slate-400 mt-1">
+        <p className="text-xs text-white/40 mt-1">
           Regulated by IRDAI | Secure Platform
         </p>
       </div>

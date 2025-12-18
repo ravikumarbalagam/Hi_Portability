@@ -9,7 +9,8 @@ import {
   Clock,
   BarChart3,
   UserCircle,
-  Shield
+  Shield,
+  HelpCircle
 } from "lucide-react";
 import { cn } from "../lib/utils";
 
@@ -23,6 +24,7 @@ const navigation = [
   { name: "Pending Policies", href: "/pending-policies", icon: Clock },
   { name: "Reports", href: "/reports", icon: BarChart3 },
   { name: "My Profile", href: "/profile", icon: UserCircle },
+  { name: "Help", href: "/help", icon: HelpCircle },
 ];
 
 export function Sidebar() {
@@ -41,7 +43,7 @@ export function Sidebar() {
             <Shield className="size-7 text-white" />
           </div>
           <div>
-            <div className="text-white">IIB Portal</div>
+            <div className="text-white">HiPortability</div>
             <div className="text-xs text-white/70">Health Insurance Portability</div>
           </div>
         </div>

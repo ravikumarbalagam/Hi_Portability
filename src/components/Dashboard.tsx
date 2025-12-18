@@ -5,11 +5,16 @@ import {
   Clock,
   CheckCircle2,
   XCircle,
-  TrendingUp
+  TrendingUp,
+  CalendarIcon
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, Legend } from "recharts";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Calendar } from "./ui/calendar";
+import { Button } from "./ui/button";
+import { format } from "date-fns";
 
 const portStats = [
   {
@@ -128,8 +133,20 @@ const portInOutData = [
 const COLORS = ["#3b82f6", "#10b981"];
 
 export function Dashboard() {
-  const [tatPeriod, setTatPeriod] = useState<"day" | "week" | "month" | "quarter">("week");
-  const [responseTatPeriod, setResponseTatPeriod] = useState<"day" | "week" | "month" | "quarter">("week");
+  const [tatPeriod, setTatPeriod] = useState<"day" | "week" | "month" | "quarter" | "custom">("week");
+  const [tatAnalysisPeriod, setTatAnalysisPeriod] = useState<"day" | "week" | "month" | "quarter" | "custom">("week");
+  const [responseTatPeriod, setResponseTatPeriod] = useState<"day" | "week" | "month" | "quarter" | "custom">("week");
+  const [portInPeriod, setPortInPeriod] = useState<"day" | "week" | "month" | "quarter" | "custom">("week");
+  const [statusOverTimePeriod, setStatusOverTimePeriod] = useState<"day" | "week" | "month" | "quarter" | "custom">("week");
+  const [portMetricsPeriod, setPortMetricsPeriod] = useState<"day" | "week" | "month" | "quarter" | "custom">("week");
+
+  // Date range states for custom selection
+  const [tatDateRange, setTatDateRange] = useState<{ from?: Date; to?: Date }>({});
+  const [tatAnalysisDateRange, setTatAnalysisDateRange] = useState<{ from?: Date; to?: Date }>({});
+  const [responseTatDateRange, setResponseTatDateRange] = useState<{ from?: Date; to?: Date }>({});
+  const [portInDateRange, setPortInDateRange] = useState<{ from?: Date; to?: Date }>({});
+  const [statusOverTimeDateRange, setStatusOverTimeDateRange] = useState<{ from?: Date; to?: Date }>({});
+  const [portMetricsDateRange, setPortMetricsDateRange] = useState<{ from?: Date; to?: Date }>({});
 
   return (
     <div className="space-y-8 p-6">
@@ -186,19 +203,48 @@ export function Dashboard() {
         {/* 1. TAT from Request to Status Update */}
         <Card className="border-[#E3EDFF] shadow-md hover:shadow-lg transition-shadow bg-gradient-to-br from-white to-[#F8FBFF]">
           <CardHeader>
-            <div className="flex items-start justify-between">
+            <div className="flex items-start justify-between gap-4">
               <div>
-                <CardTitle className="text-[#04274F]">TAT: Request to Status Update</CardTitle>
+                <CardTitle className="text-[#04274F] font-extrabold">TAT: Request to Status Update</CardTitle>
                 <CardDescription className="text-[#6E6E6E]">Port-In Insurer turnaround time</CardDescription>
               </div>
-              <Tabs value={tatPeriod} onValueChange={(v) => setTatPeriod(v as any)}>
-                <TabsList>
-                  <TabsTrigger value="day" className="text-xs px-2">Day</TabsTrigger>
-                  <TabsTrigger value="week" className="text-xs px-2">Week</TabsTrigger>
-                  <TabsTrigger value="month" className="text-xs px-2">Month</TabsTrigger>
-                  <TabsTrigger value="quarter" className="text-xs px-2">Quarter</TabsTrigger>
-                </TabsList>
-              </Tabs>
+              <div className="flex items-center gap-2">
+                <Tabs value={tatPeriod} onValueChange={(v) => setTatPeriod(v as any)}>
+                  <TabsList>
+                    <TabsTrigger value="day" className="text-xs px-2">Day</TabsTrigger>
+                    <TabsTrigger value="week" className="text-xs px-2">Week</TabsTrigger>
+                    <TabsTrigger value="month" className="text-xs px-2">Month</TabsTrigger>
+                    <TabsTrigger value="quarter" className="text-xs px-2">Quarter</TabsTrigger>
+                    <TabsTrigger value="custom" className="text-xs px-2">Custom</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+                {tatPeriod === "custom" && (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" size="sm" className="h-9">
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {tatDateRange.from ? (
+                          tatDateRange.to ? (
+                            `${format(tatDateRange.from, "MMM dd")} - ${format(tatDateRange.to, "MMM dd")}`
+                          ) : (
+                            format(tatDateRange.from, "MMM dd, yyyy")
+                          )
+                        ) : (
+                          "Pick dates"
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="end">
+                      <Calendar
+                        mode="range"
+                        selected={{ from: tatDateRange.from, to: tatDateRange.to }}
+                        onSelect={(range) => setTatDateRange(range || {})}
+                        numberOfMonths={2}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                )}
+              </div>
             </div>
           </CardHeader>
           <CardContent>
@@ -218,8 +264,49 @@ export function Dashboard() {
         {/* 2. TAT Analysis for Requests vs Responses */}
         <Card className="border-[#E3EDFF] shadow-md hover:shadow-lg transition-shadow bg-gradient-to-br from-white to-[#F8FBFF]">
           <CardHeader>
-            <CardTitle className="text-[#04274F]">TAT Analysis</CardTitle>
-            <CardDescription className="text-[#6E6E6E]">Port-In requests vs responses received and pending</CardDescription>
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <CardTitle className="text-[#04274F] font-extrabold">TAT Analysis</CardTitle>
+                <CardDescription className="text-[#6E6E6E]">Port-In requests vs responses received and pending</CardDescription>
+              </div>
+              <div className="flex items-center gap-2">
+                <Tabs value={tatAnalysisPeriod} onValueChange={(v) => setTatAnalysisPeriod(v as any)}>
+                  <TabsList>
+                    <TabsTrigger value="day" className="text-xs px-2">Day</TabsTrigger>
+                    <TabsTrigger value="week" className="text-xs px-2">Week</TabsTrigger>
+                    <TabsTrigger value="month" className="text-xs px-2">Month</TabsTrigger>
+                    <TabsTrigger value="quarter" className="text-xs px-2">Quarter</TabsTrigger>
+                    <TabsTrigger value="custom" className="text-xs px-2">Custom</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+                {tatAnalysisPeriod === "custom" && (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" size="sm" className="h-9">
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {tatAnalysisDateRange.from ? (
+                          tatAnalysisDateRange.to ? (
+                            `${format(tatAnalysisDateRange.from, "MMM dd")} - ${format(tatAnalysisDateRange.to, "MMM dd")}`
+                          ) : (
+                            format(tatAnalysisDateRange.from, "MMM dd, yyyy")
+                          )
+                        ) : (
+                          "Pick dates"
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="end">
+                      <Calendar
+                        mode="range"
+                        selected={{ from: tatAnalysisDateRange.from, to: tatAnalysisDateRange.to }}
+                        onSelect={(range) => setTatAnalysisDateRange(range || {})}
+                        numberOfMonths={2}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                )}
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={250}>
@@ -251,19 +338,48 @@ export function Dashboard() {
         {/* 3. TAT from Response to Status Update */}
         <Card className="border-[#E3EDFF] shadow-md hover:shadow-lg transition-shadow bg-gradient-to-br from-white to-[#F8FBFF]">
           <CardHeader>
-            <div className="flex items-start justify-between">
+            <div className="flex items-start justify-between gap-4">
               <div>
-                <CardTitle className="text-[#04274F]">TAT: Response to Status Update</CardTitle>
+                <CardTitle className="text-[#04274F] font-extrabold">TAT: Response to Status Update</CardTitle>
                 <CardDescription className="text-[#6E6E6E]">Port-In Insurer response time analysis</CardDescription>
               </div>
-              <Tabs value={responseTatPeriod} onValueChange={(v) => setResponseTatPeriod(v as any)}>
-                <TabsList>
-                  <TabsTrigger value="day" className="text-xs px-2">Day</TabsTrigger>
-                  <TabsTrigger value="week" className="text-xs px-2">Week</TabsTrigger>
-                  <TabsTrigger value="month" className="text-xs px-2">Month</TabsTrigger>
-                  <TabsTrigger value="quarter" className="text-xs px-2">Quarter</TabsTrigger>
-                </TabsList>
-              </Tabs>
+              <div className="flex items-center gap-2">
+                <Tabs value={responseTatPeriod} onValueChange={(v) => setResponseTatPeriod(v as any)}>
+                  <TabsList>
+                    <TabsTrigger value="day" className="text-xs px-2">Day</TabsTrigger>
+                    <TabsTrigger value="week" className="text-xs px-2">Week</TabsTrigger>
+                    <TabsTrigger value="month" className="text-xs px-2">Month</TabsTrigger>
+                    <TabsTrigger value="quarter" className="text-xs px-2">Quarter</TabsTrigger>
+                    <TabsTrigger value="custom" className="text-xs px-2">Custom</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+                {responseTatPeriod === "custom" && (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" size="sm" className="h-9">
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {responseTatDateRange.from ? (
+                          responseTatDateRange.to ? (
+                            `${format(responseTatDateRange.from, "MMM dd")} - ${format(responseTatDateRange.to, "MMM dd")}`
+                          ) : (
+                            format(responseTatDateRange.from, "MMM dd, yyyy")
+                          )
+                        ) : (
+                          "Pick dates"
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="end">
+                      <Calendar
+                        mode="range"
+                        selected={{ from: responseTatDateRange.from, to: responseTatDateRange.to }}
+                        onSelect={(range) => setResponseTatDateRange(range || {})}
+                        numberOfMonths={2}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                )}
+              </div>
             </div>
           </CardHeader>
           <CardContent>
@@ -282,8 +398,49 @@ export function Dashboard() {
         {/* 4. Port-In Requests Analysis Over Time */}
         <Card className="border-[#E3EDFF] shadow-md hover:shadow-lg transition-shadow bg-gradient-to-br from-white to-[#F8FBFF]">
           <CardHeader>
-            <CardTitle className="text-[#04274F]">Port-In Requests Over Time</CardTitle>
-            <CardDescription className="text-[#6E6E6E]">Monthly trend analysis of incoming port requests</CardDescription>
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <CardTitle className="text-[#04274F] font-extrabold">Port-In Requests Over Time</CardTitle>
+                <CardDescription className="text-[#6E6E6E]">Monthly trend analysis of incoming port requests</CardDescription>
+              </div>
+              <div className="flex items-center gap-2">
+                <Tabs value={portInPeriod} onValueChange={(v) => setPortInPeriod(v as any)}>
+                  <TabsList>
+                    <TabsTrigger value="day" className="text-xs px-2">Day</TabsTrigger>
+                    <TabsTrigger value="week" className="text-xs px-2">Week</TabsTrigger>
+                    <TabsTrigger value="month" className="text-xs px-2">Month</TabsTrigger>
+                    <TabsTrigger value="quarter" className="text-xs px-2">Quarter</TabsTrigger>
+                    <TabsTrigger value="custom" className="text-xs px-2">Custom</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+                {portInPeriod === "custom" && (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" size="sm" className="h-9">
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {portInDateRange.from ? (
+                          portInDateRange.to ? (
+                            `${format(portInDateRange.from, "MMM dd")} - ${format(portInDateRange.to, "MMM dd")}`
+                          ) : (
+                            format(portInDateRange.from, "MMM dd, yyyy")
+                          )
+                        ) : (
+                          "Pick dates"
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="end">
+                      <Calendar
+                        mode="range"
+                        selected={{ from: portInDateRange.from, to: portInDateRange.to }}
+                        onSelect={(range) => setPortInDateRange(range || {})}
+                        numberOfMonths={2}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                )}
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={250}>
@@ -308,8 +465,49 @@ export function Dashboard() {
         {/* 5. Port-In Requests and Response Status Over Time */}
         <Card className="border-[#E3EDFF] shadow-md hover:shadow-lg transition-shadow bg-gradient-to-br from-white to-[#F8FBFF]">
           <CardHeader>
-            <CardTitle className="text-[#04274F]">Request & Response Status Over Time</CardTitle>
-            <CardDescription className="text-[#6E6E6E]">Port-In status breakdown by month</CardDescription>
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <CardTitle className="text-[#04274F] font-extrabold">Request & Response Status Over Time</CardTitle>
+                <CardDescription className="text-[#6E6E6E]">Port-In status breakdown by month</CardDescription>
+              </div>
+              <div className="flex items-center gap-2">
+                <Tabs value={statusOverTimePeriod} onValueChange={(v) => setStatusOverTimePeriod(v as any)}>
+                  <TabsList>
+                    <TabsTrigger value="day" className="text-xs px-2">Day</TabsTrigger>
+                    <TabsTrigger value="week" className="text-xs px-2">Week</TabsTrigger>
+                    <TabsTrigger value="month" className="text-xs px-2">Month</TabsTrigger>
+                    <TabsTrigger value="quarter" className="text-xs px-2">Quarter</TabsTrigger>
+                    <TabsTrigger value="custom" className="text-xs px-2">Custom</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+                {statusOverTimePeriod === "custom" && (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" size="sm" className="h-9">
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {statusOverTimeDateRange.from ? (
+                          statusOverTimeDateRange.to ? (
+                            `${format(statusOverTimeDateRange.from, "MMM dd")} - ${format(statusOverTimeDateRange.to, "MMM dd")}`
+                          ) : (
+                            format(statusOverTimeDateRange.from, "MMM dd, yyyy")
+                          )
+                        ) : (
+                          "Pick dates"
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="end">
+                      <Calendar
+                        mode="range"
+                        selected={{ from: statusOverTimeDateRange.from, to: statusOverTimeDateRange.to }}
+                        onSelect={(range) => setStatusOverTimeDateRange(range || {})}
+                        numberOfMonths={2}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                )}
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={250}>
@@ -330,8 +528,49 @@ export function Dashboard() {
         {/* 6. Port-In and Port-Out Metrics Dashboard */}
         <Card className="border-[#E3EDFF] shadow-md hover:shadow-lg transition-shadow bg-gradient-to-br from-white to-[#F8FBFF]">
           <CardHeader>
-            <CardTitle className="text-[#04274F]">Port in and Port Out Metrics Dashboard</CardTitle>
-            <CardDescription className="text-[#6E6E6E]">Overall portability movement analysis with detailed metrics</CardDescription>
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <CardTitle className="text-[#04274F] font-extrabold">Port in and Port Out Metrics Dashboard</CardTitle>
+                <CardDescription className="text-[#6E6E6E]">Overall portability movement analysis with detailed metrics</CardDescription>
+              </div>
+              <div className="flex items-center gap-2">
+                <Tabs value={portMetricsPeriod} onValueChange={(v) => setPortMetricsPeriod(v as any)}>
+                  <TabsList>
+                    <TabsTrigger value="day" className="text-xs px-2">Day</TabsTrigger>
+                    <TabsTrigger value="week" className="text-xs px-2">Week</TabsTrigger>
+                    <TabsTrigger value="month" className="text-xs px-2">Month</TabsTrigger>
+                    <TabsTrigger value="quarter" className="text-xs px-2">Quarter</TabsTrigger>
+                    <TabsTrigger value="custom" className="text-xs px-2">Custom</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+                {portMetricsPeriod === "custom" && (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" size="sm" className="h-9">
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {portMetricsDateRange.from ? (
+                          portMetricsDateRange.to ? (
+                            `${format(portMetricsDateRange.from, "MMM dd")} - ${format(portMetricsDateRange.to, "MMM dd")}`
+                          ) : (
+                            format(portMetricsDateRange.from, "MMM dd, yyyy")
+                          )
+                        ) : (
+                          "Pick dates"
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="end">
+                      <Calendar
+                        mode="range"
+                        selected={{ from: portMetricsDateRange.from, to: portMetricsDateRange.to }}
+                        onSelect={(range) => setPortMetricsDateRange(range || {})}
+                        numberOfMonths={2}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                )}
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">

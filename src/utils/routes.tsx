@@ -12,6 +12,7 @@ import { MyProfile } from "../components/MyProfile";
 import { Alerts } from "../components/Alerts";
 import { Login } from "../components/Login";
 import { StyleGuide } from "../components/StyleGuide";
+import { Help } from "../components/Help";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,7 @@ export const router = createBrowserRouter([
       { path: "reports", Component: Reports },
       { path: "profile", Component: MyProfile },
       { path: "alerts", Component: Alerts },
+      { path: "help", Component: Help },
       { path: "style-guide", Component: StyleGuide },
     ],
   },
